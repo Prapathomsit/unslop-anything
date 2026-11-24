@@ -926,7 +926,7 @@ const rules = [
     message: "Cards that grow on hover.",
     fix: "Show hover with a quick color or surface change. Keep scale for a small press-down on buttons.",
     find({ code }) {
-      return [...matches(/\b(?:group-)?hover:(?:-translate-y-\d|scale-1(?:0[2-9]|[1-9]\d)\b|scale-\[(?:1\.(?:0[2-9]\d*|[1-9]\d*)|[2-9]\d*(?:\.\d+)?)\])|:hover\s*\{[^}]*transform:\s*scale\(1\.(?:0[2-9]|[1-9])/, code)].map((m) => m.index);
+      return [...matches(/\b(?:group-)?hover:(?:-translate-y-\d|scale-1(?:0[2-9]|[1-9]\d)\b|scale-\[(?:1\.(?:0[2-9]\d*|[1-9]\d*)|[2-9]\d*(?:\.\d+)?)\])|:hover\s*\{[^}]*transform:\s*scale\(1\.(?:0[2-9]|[1-9])|:hover\s*\{[^}]*?(?<![\w-])scale\s*:\s*(?:1\.0[2-9]\d*|1\.[1-9]\d*)\b/, code)].map((m) => m.index);
     },
   },
   {

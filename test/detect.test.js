@@ -992,6 +992,16 @@ test("hover-scale flags Tailwind arbitrary scale values of 1.02 and above", () =
   assert.deepStrictEqual(rulesFor('<div className="hover:scale-105">x</div>\n'), ["hover-scale"]);
 });
 
+test("hover-scale flags standalone CSS scale at 1.02 and above, not neutral, shrinking, or similarly named properties", () => {
+  const rulesFor = (src) => scanSource(src, "a.css", { kind: "web" }).map((f) => f.rule);
+  assert.deepStrictEqual(rulesFor(".card:hover { scale: 1.02; }\n"), ["hover-scale"]);
+  assert.deepStrictEqual(rulesFor(".card:hover { scale: 1.1 1; }\n"), ["hover-scale"]);
+  assert.deepStrictEqual(rulesFor(".card:hover { scale: 1; }\n"), []);
+  assert.deepStrictEqual(rulesFor(".button:hover { scale: 0.98; }\n"), []);
+  assert.deepStrictEqual(rulesFor(".card:hover { scaleX: 1.1; }\n"), []);
+  assert.deepStrictEqual(rulesFor(".card:hover { custom-scale: 1.1; }\n"), []);
+});
+
 test("glow-shadow catches Android shadowColor on one line or with alpha", () => {
   const oneLine = '<TextView android:shadowColor="#7C3AED" android:shadowRadius="20" />';
   const multiLine = '<TextView\n    android:shadowColor="#807C3AED"\n    android:shadowRadius="20" />';
